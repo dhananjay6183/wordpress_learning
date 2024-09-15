@@ -1,13 +1,12 @@
 <?php
+function my_theme_enqueue_styles() {
+    $parent_style = 'parent-style';
+    wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
+    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( $parent_style ));
+    wp_enqueue_style( 'bootstrap-css', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' );
 
-function my_child_theme_enqueue_styles() {
-    // Enqueue parent style
-    wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
-
-    // Enqueue child style
-    wp_enqueue_style( 'child-style', get_stylesheet_directory_uri() . '/style.css', array( 'parent-style' ), wp_get_theme()->get('Version') );
-
-    // Enqueue child script
-    wp_enqueue_script( 'child-script', get_stylesheet_directory_uri() . '/js/custom.js', array('jquery'), wp_get_theme()->get('Version'), true );
+    // Enqueue Bootstrap JS and dependencies
+    wp_enqueue_script( 'jquery' ); // Ensure jQuery is loaded (comes bundled with WordPress)
+    wp_enqueue_script( 'bootstrap-js', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js', array('jquery'), null, true );
 }
-add_action( 'wp_enqueue_scripts', 'my_child_theme_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', 'my_theme_enqueue_styles' );
